@@ -1,7 +1,7 @@
-import React, { useState ,useEffect} from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import Cookies from 'universal-cookie/es6';
-import { Darktheme, DecodedToken } from '../Utils/common';
+import { Darktheme, DecodedToken, Defaultstate } from '../Utils/common';
 const Navbar = () => {
     const cookies = new Cookies();
     var access = cookies.get("Access_token");
@@ -22,10 +22,10 @@ const Navbar = () => {
                         <div className="collapse navbar-collapse" id="navbar-main">
                             <ul className="navbar-nav me-0 mb-2 mb-lg-0 mx-auto">
                                 <li className="nav-item">
-                                    <a className="nav-link active" aria-current="page" href="https://www.facebook.com/">Home</a>
+                                    <Link className="nav-link active" to={"/"} aria-current="page" >Home</Link>
                                 </li>
                                 <li className="nav-item">
-                                    <a className="nav-link" href="https://www.facebook.com/">Destinations</a>
+                                    <Link to={"/destinations"} state={Defaultstate} className="nav-link">Destinations</Link>
                                 </li>
                                 <li className="nav-item">
                                     <a className="nav-link" href="https://www.facebook.com/">Packages</a>

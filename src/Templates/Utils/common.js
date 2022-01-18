@@ -5,6 +5,12 @@ import axios from 'axios';
 import Cookies from "universal-cookie/es6";
 const cookies = new Cookies();
 
+export const Defaultstate = {
+  'name': "",
+  'date': "",
+  'categoryid': null
+}
+
 // export const FacebookLogin = () => {
 //   const handleResponse = (data) => {
 //     console.log(data);
@@ -47,10 +53,10 @@ export const Darktheme = () => {
     body.classList.add("dark");
   }
 }
-export const Path = window.location.pathname.split("/")[1];
 
+
+// export const Api = "http://192.168.0.110:8888";
 export const Api = "http://localhost:8000";
-
 export const Discount = (TotalPrice, discount) => {
   var DiscountedPrice = (discount / 100) * TotalPrice;
 
@@ -68,7 +74,7 @@ export const DecodedToken = (token) => {
         console.log(res.data);
       })
     }
-  }, []);
+  }, [token]);
 
 
   return UserApi
@@ -82,4 +88,9 @@ export const RatingAdd = (rating) => {
     console.log(Added);
   }
   return Added / rating.length;
+}
+
+
+export const categoryimage = (id)=>{
+axios.get(Api+``)
 }

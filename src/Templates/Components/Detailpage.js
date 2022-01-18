@@ -1,6 +1,6 @@
 import axios from 'axios';
 import React, { useState, useEffect } from 'react'
-import { Link, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { Api, Discount, RatingAdd } from '../Utils/common';
 
 const Detailpage = () => {
@@ -16,7 +16,7 @@ const Detailpage = () => {
             console.log(res.data[0]);
             console.log(res.data[0].Travels_place_path);
         })
-    }, []);
+    }, [slug]);
     return (
         <>
             <div className="detailpage">
@@ -80,14 +80,11 @@ const Detailpage = () => {
                             <div className="review p-2 d-flex align-items-center ">
 
                                 <a href="https://www.facebook.com/" className="btn btn-warning text-light me-2">{RatingAdd(Rating) ? RatingAdd(Rating) : 5}</a>
-                                {RatingAdd(Rating) <= 1 ?<> <i className="fa fa-star text-warning" aria-hidden="true"></i> <i class="fa fa-star-o text-warning me-2" aria-hidden="true"></i> <i class="fa fa-star-o text-warning me-2" aria-hidden="true"></i> <i class="fa fa-star-o text-warning me-2" aria-hidden="true"></i> <i class="fa fa-star-o text-warning me-2" aria-hidden="true"></i> </>: RatingAdd(Rating) <= 2 ? <><i className="fa fa-star text-warning" aria-hidden="true"></i><i className="fa fa-star text-warning" aria-hidden="true"></i> <i class="fa fa-star-o text-warning me-2" aria-hidden="true"></i> <i class="fa fa-star-o text-warning me-2" aria-hidden="true"></i> <i class="fa fa-star-o text-warning me-2" aria-hidden="true"></i></> : RatingAdd(Rating) <= 3 ? <><i className="fa fa-star text-warning" aria-hidden="true"></i><i className="fa fa-star text-warning" aria-hidden="true"></i><i className="fa fa-star text-warning" aria-hidden="true"></i> <i class="fa fa-star-o text-warning me-2" aria-hidden="true"></i> <i class="fa fa-star-o text-warning me-2" aria-hidden="true"></i></> : RatingAdd(Rating) <= 4 ? <><i className="fa fa-star text-warning" aria-hidden="true"></i><i className="fa fa-star text-warning" aria-hidden="true"></i><i className="fa fa-star text-warning" aria-hidden="true"></i><i className="fa fa-star text-warning" aria-hidden="true"></i> <i class="fa fa-star-o text-warning me-2" aria-hidden="true"></i></> : <> <i className="fa fa-star text-warning" aria-hidden="true"></i><i className="fa fa-star text-warning" aria-hidden="true"></i><i className="fa fa-star text-warning" aria-hidden="true"></i><i className="fa fa-star text-warning" aria-hidden="true"></i><i className="fa fa-star text-warning" aria-hidden="true"></i></>}
+                                {RatingAdd(Rating) <= 1 ? <> <i className="fa fa-star text-warning" aria-hidden="true"></i> <i class="fa fa-star-o text-warning me-2" aria-hidden="true"></i> <i class="fa fa-star-o text-warning me-2" aria-hidden="true"></i> <i class="fa fa-star-o text-warning me-2" aria-hidden="true"></i> <i class="fa fa-star-o text-warning me-2" aria-hidden="true"></i> </> : RatingAdd(Rating) <= 2 ? <><i className="fa fa-star text-warning" aria-hidden="true"></i><i className="fa fa-star text-warning" aria-hidden="true"></i> <i class="fa fa-star-o text-warning me-2" aria-hidden="true"></i> <i class="fa fa-star-o text-warning me-2" aria-hidden="true"></i> <i class="fa fa-star-o text-warning me-2" aria-hidden="true"></i></> : RatingAdd(Rating) <= 3 ? <><i className="fa fa-star text-warning" aria-hidden="true"></i><i className="fa fa-star text-warning" aria-hidden="true"></i><i className="fa fa-star text-warning" aria-hidden="true"></i> <i class="fa fa-star-o text-warning me-2" aria-hidden="true"></i> <i class="fa fa-star-o text-warning me-2" aria-hidden="true"></i></> : RatingAdd(Rating) <= 4 ? <><i className="fa fa-star text-warning" aria-hidden="true"></i><i className="fa fa-star text-warning" aria-hidden="true"></i><i className="fa fa-star text-warning" aria-hidden="true"></i><i className="fa fa-star text-warning" aria-hidden="true"></i> <i class="fa fa-star-o text-warning me-2" aria-hidden="true"></i></> : <> <i className="fa fa-star text-warning" aria-hidden="true"></i><i className="fa fa-star text-warning" aria-hidden="true"></i><i className="fa fa-star text-warning" aria-hidden="true"></i><i className="fa fa-star text-warning" aria-hidden="true"></i><i className="fa fa-star text-warning" aria-hidden="true"></i></>}
                                 <h6 className='ms-2'>{Rating.length} Cient Reviews</h6>
                             </div>
                             <div className="from">
                                 <label>From </label><strong> Kathmandu </strong>to <strong> Pokhara</strong>
-
-
-
                             </div>
                             <div className="row row-cols-md-2 mt-4">
                                 <div className="col d-flex flex-column justify-content-evenly">

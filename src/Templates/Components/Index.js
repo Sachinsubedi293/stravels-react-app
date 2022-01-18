@@ -13,13 +13,28 @@ import FlexCaroucel from './FlexCaroucel';
 import axios from 'axios';
 import { Api, Discount } from '../Utils/common';
 import { Link } from 'react-router-dom';
+import ReviewCaroucel from './ReviewCaroucel';
 
 const Index = () => {
     const [InformationApi, setInformationApi] = useState([]);
+    const [DepartureDate, setDepartureDate] = useState("");
+    const [PackageName, setPackageName] = useState("");
+    const [CategoryApi, setCategoryApi] = useState([]);
+    const [CategoryId, setCategoryId] = useState(0);
+
+
     useEffect(() => {
         axios.get(Api + `/api/travel-place-information/`).then(res => {
-            setInformationApi(res.data.slice(0,3));
+            setInformationApi(res.data.slice(0, 3));
             console.log(res.data);
+        }).catch(err => {
+            console.error(err);
+        })
+        axios.get(Api + `/api/Travels-category/`).then(res => {
+            setCategoryApi(res.data);
+            console.log(res.data);
+        }).catch(err => {
+            console.log(err);
         })
     }, []);
     return (
@@ -36,13 +51,19 @@ const Index = () => {
                     <section className="container search-box p-2 shadow" id="search" >
                         <div className="row row-cols-md-4 pb-2">
                             <div className="col"><label htmlFor="https://www.facebook.com/">Destination</label>
-                                <input type="text" name="https://www.facebook.com/" className="form-control" placeholder="--Place--" /></div>
-                            <div className="col"><label htmlFor="https://www.facebook.com/">Departure Date</label><input type="date" className="form-control" name="https://www.facebook.com/" />
+                                <input type="text" name="https://www.facebook.com/" className="form-control" placeholder="--Place--" onChange={(e) => { setPackageName(e.target.value) }} list='Places' />
+                                <datalist id='Places'>
+                                    {InformationApi.map(res => (<option value={res.travel_place_title} key={res.id}>{res.travel_place_title}</option>))}
+                                </datalist>
                             </div>
-                            <div className="col"><label htmlFor="https://www.facebook.com/">Price Range</label><input type="number" className="form-control" name="price"
-                                placeholder="In Nepali Rupeee" /></div>
-                            <div className="col"><label htmlFor="https://www.facebook.com/">Search</label><input type="button" className="btn btn-primary br-50 form-control"
-                                value="Search" name="https://www.facebook.com/" /></div>
+                            <div className="col"><label htmlFor="https://www.facebook.com/">Departure Date</label><input type="date" className="form-control" name="https://www.facebook.com/" onChange={(e) => { setDepartureDate(e.target.value) }} />
+                            </div>
+                            <div className="col"><label htmlFor="https://www.facebook.com/">Type</label><select className='form-select' onChange={(e) => { setCategoryId(e.target.value) }}>
+                                <option value="0">--Type--</option>
+                                {CategoryApi.map(res => (<option key={res.id} value={res.id}>{res.category}</option>))}</select></div>
+                            <div className="col"><label htmlFor="https://www.facebook.com/">Search</label><Link to={
+                                '/destinations'} state={{ 'name': PackageName, 'date': DepartureDate, "categoryid": CategoryId }} className='btn btn-primary text-light br-50 form-control'>
+                                Search</Link></div>
                         </div>
                     </section>
                 </section>
@@ -240,123 +261,8 @@ const Index = () => {
                     <p>Finally, for any additional information about everything from bookings to how to prepare for specific activity
                         holidays, our ‘FAQs’ can help point you in the right direction.</p>
                 </section>
+                <ReviewCaroucel />
 
-                <div id="review-caroucel" className="carousel review-carousel slide" data-bs-ride="carousel">
-                    <div className="carousel-inner">
-                        <div className="carousel-item active">
-                            <div className="row row-cols-md-3 container mx-auto">
-                                <div className="col">
-                                    <figure className="snip1192">
-                                        <blockquote>Calvin: Sometimes when I'm talking with others, my words can't keep up with my thoughts. I
-                                            wonder why we think faster than we speak. Hobbes: Probably so we can think twice. </blockquote>
-                                        <div className="author">
-                                            <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/331810/sq-sample1.jpg" alt="sq-sample1" />
-                                            <h5>Pelican Steve <span> LittleSnippets</span></h5>
-                                        </div>
-                                    </figure>
-
-                                </div>
-                                <div className="col">
-                                    <figure className="snip1192">
-                                        <blockquote>Calvin: Sometimes when I'm talking with others, my words can't keep up with my thoughts. I
-                                            wonder why we think faster than we speak. Hobbes: Probably so we can think twice. </blockquote>
-                                        <div className="author">
-                                            <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/331810/sq-sample1.jpg" alt="sq-sample1" />
-                                            <h5>Pelican Steve <span> LittleSnippets</span></h5>
-                                        </div>
-                                    </figure>
-                                </div>
-                                <div className="col">
-                                    <figure className="snip1192">
-                                        <blockquote>Calvin: Sometimes when I'm talking with others, my words can't keep up with my thoughts. I wonder why we think faster than we speak. Hobbes: Probably so we can think twice. </blockquote>
-                                        <div className="author">
-                                            <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/331810/sq-sample1.jpg" alt="sq-sample1" />
-                                            <h5>Pelican Steve <span> LittleSnippets</span></h5>
-                                        </div>
-                                    </figure>
-
-                                </div>
-                            </div>
-                        </div>
-                        <div className="carousel-item">
-                            <div className="row row-cols-md-3 container  mx-auto">
-                                <div className="col">
-
-                                    <figure className="snip1192">
-                                        <blockquote>Calvin: Sometimes when I'm talking with others, my words can't keep up with my thoughts. I wonder why we think faster than we speak. Hobbes: Probably so we can think twice. </blockquote>
-                                        <div className="author">
-                                            <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/331810/sq-sample1.jpg" alt="sq-sample1" />
-                                            <h5>Pelican Steve <span> LittleSnippets</span></h5>
-                                        </div>
-                                    </figure>
-
-                                </div>
-                                <div className="col">
-                                    <figure className="snip1192">
-                                        <blockquote>Calvin: Sometimes when I'm talking with others, my words can't keep up with my thoughts. I wonder why we think faster than we speak. Hobbes: Probably so we can think twice. </blockquote>
-                                        <div className="author">
-                                            <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/331810/sq-sample1.jpg" alt="sq-sample1" />
-                                            <h5>Pelican Steve <span> LittleSnippets</span></h5>
-                                        </div>
-                                    </figure>
-
-                                </div>
-                                <div className="col">
-                                    <figure className="snip1192">
-                                        <blockquote>Calvin: Sometimes when I'm talking with others, my words can't keep up with my thoughts. I wonder why we think faster than we speak. Hobbes: Probably so we can think twice. </blockquote>
-                                        <div className="author">
-                                            <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/331810/sq-sample1.jpg" alt="sq-sample1" />
-                                            <h5>Pelican Steve <span> LittleSnippets</span></h5>
-                                        </div>
-                                    </figure>
-
-                                </div>
-                            </div>
-                        </div>
-                        <div className="carousel-item">
-                            <div className="row row-cols-md-3 container mx-auto">
-                                <div className="col">
-                                    <figure className="snip1192">
-                                        <blockquote>Calvin: Sometimes when I'm talking with others, my words can't keep up with my thoughts. I wonder why we think faster than we speak. Hobbes: Probably so we can think twice. </blockquote>
-                                        <div className="author">
-                                            <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/331810/sq-sample1.jpg" alt="sq-sample1" />
-                                            <h5>Pelican Steve <span> LittleSnippets</span></h5>
-                                        </div>
-                                    </figure>
-
-                                </div>
-                                <div className="col">
-                                    <figure className="snip1192">
-                                        <blockquote>Calvin: Sometimes when I'm talking with others, my words can't keep up with my thoughts. I wonder why we think faster than we speak. Hobbes: Probably so we can think twice. </blockquote>
-                                        <div className="author">
-                                            <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/331810/sq-sample1.jpg" alt="sq-sample1" />
-                                            <h5>Pelican Steve <span> LittleSnippets</span></h5>
-                                        </div>
-                                    </figure>
-
-                                </div>
-                                <div className="col">
-                                    <figure className="snip1192">
-                                        <blockquote>Calvin: Sometimes when I'm talking with others, my words can't keep up with my thoughts. I wonder why we think faster than we speak. Hobbes: Probably so we can think twice. </blockquote>
-                                        <div className="author">
-                                            <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/331810/sq-sample1.jpg" alt="sq-sample1" />
-                                            <h5>Pelican Steve <span> LittleSnippets</span></h5>
-                                        </div>
-                                    </figure>
-
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <button className="carousel-control-prev" type="button" data-bs-target="#review-caroucel" data-bs-slide="prev">
-                        <span className="carousel-control-prev-icon" aria-hidden="true"></span>
-                        <span className="visually-hidden">Previous</span>
-                    </button>
-                    <button className="carousel-control-next" type="button" data-bs-target="#review-caroucel" data-bs-slide="next">
-                        <span className="carousel-control-next-icon" aria-hidden="true"></span>
-                        <span className="visually-hidden">Next</span>
-                    </button>
-                </div>
                 <section className="contact container">
                     <div className="row row-cols-md-3">
                         <div className="col-md-4"><div className="contact-item"><h5>Call us on 98407381115</h5></div></div>

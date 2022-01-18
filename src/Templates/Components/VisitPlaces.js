@@ -1,14 +1,41 @@
-import React from 'react'
-import { Discount, Path, TravelplaceInformationfilter } from '../Utils/common';
+import axios from 'axios';
+import React, { useState, useEffect } from 'react';
+import { Api, Discount, TravelplaceInformationfilter } from '../Utils/common';
 import FlexCaroucel from './FlexCaroucel';
 
 const VisitPlaces = () => {
-    
+    const [Information, setInformation] = useState([]);
+    const [Condition, setCondition] = useState("Search");
+    const Props = {}
+
+    useEffect(() => {
+        axios.get(Api + `/api/departre-date/?From=${Props.state.date}`).then(response => {
+            console.log(response.data);
+            axios.get(Api + `/api/travel-place-information/?travel_place_title=${Props.state.name}`).then(res => {
+                console.log(res.data);
+                const myArrayFiltered = res.data.filter((el) => {
+                    return response.data.some((f) => {
+                        return f.travels_place_information === el.id;
+                    });
+                });
+                console.warn(myArrayFiltered)
+                setInformation(myArrayFiltered);
+                setCondition("Clear")
+            }).catch(err => {
+                console.error(err);
+            })
+        })
+
+    }, [Props.state.date || Props.state.name || Props.state.categoryid]);
+
+    const Clear = () => {
+        Props = {}
+    }
     return (
         <>
             <section className="body destination">
                 <section className="container">
-                <FlexCaroucel />
+                    <FlexCaroucel />
                 </section>
                 <section className="image">
                     <div className="texts">
@@ -19,20 +46,22 @@ const VisitPlaces = () => {
                 <nav>
                     <ul className="container text-dark">
                         <li>Home</li>
-                        <li className="text-capitalize">{Path}</li>
+                        <li className="text-capitalize">Destinations</li>
                     </ul>
                 </nav>
                 <section className="container search-box bg-secondary text-light rounded p-2 shadow" id="search">
                     <div className="row row-cols-md-4 pb-2">
                         <div className="col"><label for="#">Destination</label>
-                            <input type="text" name="#" className="form-control" placeholder="--Place--" />
+                            <input type="text" name="#" defaultValue={Props.state.name} className="form-control" placeholder="--Place--" />
                         </div>
-                        <div className="col"><label for="#">Departure Date</label><input type="date" className="form-control" name="#" />
+                        <div className="col"><label for="#">Departure Date</label><input type="date" defaultValue={Props.state.date} className="form-control" name="#" />
                         </div>
-                        <div className="col"><label for="#">Price Range</label><input type="number" className="form-control" name="price"
-                            placeholder="In Nepali Rupeee" /></div>
+                        <div className="col"><label htmlFor="https://www.facebook.com/">Type</label><select defaultValue={Props.state.categoryid} className='form-select'>
+                            <option value="0">--Type--</option>
+                            <option value="1">Trek</option>
+                        </select></div>
                         <div className="col"><label for="#">Search</label><input type="button" className="btn btn-primary br-50 form-control"
-                            value="Search" name="#" /></div>
+                            value={Condition} onClick={Clear} name="#" /></div>
                     </div>
                 </section>
                 <section className="text-center top-destinations-show container mt-5">
@@ -56,70 +85,70 @@ const VisitPlaces = () => {
                         <hr />
                     </div>
                     <div className="row row-cols-md-3 ">
-                        {TravelplaceInformationfilter().map(res=>(
-                            
+                        {Information.map(res => (
+
                             <div className="col-md-4" key={res.id}>
-                            <div className="card shadow position-relative ">
-                                <div id="card-carousel-1" className="carousel slide" data-bs-ride="carousel">
-                                    <div className="carousel-inner">
-                                        <div className="carousel-item active">
-                                            <img src={res.travels_place_image} className="d-block img-fluid p-0 w-100" alt="..." />
+                                <div className="card shadow position-relative ">
+                                    <div id="card-carousel-1" className="carousel slide" data-bs-ride="carousel">
+                                        <div className="carousel-inner">
+                                            <div className="carousel-item active">
+                                                <img src={res.travels_place_image} className="d-block img-fluid p-0 w-100" alt="..." />
+                                            </div>
+                                            <div className="carousel-item">
+                                                <img src={res.travels_place_image1} className="d-block img-fluid p-0 w-100" alt="..." />
+                                            </div>
+                                            <div className="carousel-item">
+                                                <img src={res.travels_place_image2} className="d-block img-fluid p-0 w-100" alt="..." />
+                                            </div>
                                         </div>
-                                        <div className="carousel-item">
-                                            <img src={res.travels_place_image1} className="d-block img-fluid p-0 w-100" alt="..." />
-                                        </div>
-                                        <div className="carousel-item">
-                                            <img src={res.travels_place_image2} className="d-block img-fluid p-0 w-100" alt="..." />
-                                        </div>
+                                        <button className="carousel-control-prev" type="button" data-bs-target="#card-carousel-1"
+                                            data-bs-slide="prev">
+                                            <span className="carousel-control-prev-icon" aria-hidden="true"></span>
+                                            <span className="visually-hidden">Previous</span>
+                                        </button>
+                                        <button className="carousel-control-next" type="button" data-bs-target="#card-carousel-1"
+                                            data-bs-slide="next">
+                                            <span className="carousel-control-next-icon" aria-hidden="true"></span>
+                                            <span className="visually-hidden">Next</span>
+                                        </button>
                                     </div>
-                                    <button className="carousel-control-prev" type="button" data-bs-target="#card-carousel-1"
-                                        data-bs-slide="prev">
-                                        <span className="carousel-control-prev-icon" aria-hidden="true"></span>
-                                        <span className="visually-hidden">Previous</span>
-                                    </button>
-                                    <button className="carousel-control-next" type="button" data-bs-target="#card-carousel-1"
-                                        data-bs-slide="next">
-                                        <span className="carousel-control-next-icon" aria-hidden="true"></span>
-                                        <span className="visually-hidden">Next</span>
-                                    </button>
-                                </div>
-                                <div className="w-100 d-flex justify-content-end position-absolute  top-0"><label className="text-light p-2 text-center discount-bg fw-bolder rounded-circle end-0">{res.discount}%</label></div>
+                                    <div className="w-100 d-flex justify-content-end position-absolute  top-0"><label className="text-light p-2 text-center discount-bg fw-bolder rounded-circle end-0">{res.discount}%</label></div>
 
-                                <div className="card-body">
+                                    <div className="card-body">
 
-                                    <h3 className="text-center ">{res.travel_place_title}</h3>
-                                    <small className="d-flex review-star justify-content-center text-center pb-2">
-                                        <i className="fa fa-star text-warning" aria-hidden="true"></i>
-                                        <i className="fa fa-star text-warning" aria-hidden="true"></i>
-                                        <i className="fa fa-star text-warning" aria-hidden="true"></i>
-                                        <i className="fa fa-star text-warning" aria-hidden="true"></i>
-                                        <i className="fa fa-star-half text-warning" aria-hidden="true"></i>
-                                        <label><strong className="ms-1 text-success">{res.user_rating.length}</strong> reviews</label>
-                                    </small>
-                                    <div className="row row-cols-md-2 mt-2">
-                                        <div className="col-md-4"><img src="./IMAGES/main-2.jpg" className="img-fluid" alt="catagory" />
-                                            <label>Culture</label>
-                                        </div>
-                                        <div className="col-md-8">
-                                            <h5>Activity Level</h5>
-                                            <h6>Modarate</h6>
-                                            <hr className="m-0" />
-                                            <label>Age 18+</label>
-                                        </div>
+                                        <h3 className="text-center ">{res.travel_place_title}</h3>
+                                        <small className="d-flex review-star justify-content-center text-center pb-2">
+                                            <i className="fa fa-star text-warning" aria-hidden="true"></i>
+                                            <i className="fa fa-star text-warning" aria-hidden="true"></i>
+                                            <i className="fa fa-star text-warning" aria-hidden="true"></i>
+                                            <i className="fa fa-star text-warning" aria-hidden="true"></i>
+                                            <i className="fa fa-star-half text-warning" aria-hidden="true"></i>
+                                            <label><strong className="ms-1 text-success">{res.user_rating.length}</strong> reviews</label>
+                                        </small>
+                                        <div className="row row-cols-md-2 mt-2">
+                                            <div className="col-md-4"><img src="./IMAGES/main-2.jpg" className="img-fluid" alt="catagory" />
+                                                <label>Culture</label>
+                                            </div>
+                                            <div className="col-md-8">
+                                                <h5>Activity Level</h5>
+                                                <h6>Modarate</h6>
+                                                <hr className="m-0" />
+                                                <label>Age 18+</label>
+                                            </div>
 
+                                        </div>
+                                        <div className="d-flex justify-content-center mt-3 mb-0">
+                                            <h4 className="text-danger me-1">{res.duration}</h4>from <h4 className="text-danger ms-1"> ${Discount(res.Total_cost, res.discount)}</h4>
+                                        </div>
+                                        <small className="d-flex w-100 text-center justify-content-center mt-0 mb-2">With Discount</small>
+                                        <div className="d-flex justify-content-center">
+                                            <label>Guided (<span className="text-success">{res.Tour_operator}</span>)</label>
+                                        </div>
+                                        <div className="viw-button"><a type="button" href="https://www.facebook.com/" className="form-control bg-primary text-light text-center mt-3">View
+                                            Details</a></div>
                                     </div>
-                                    <div className="d-flex justify-content-center mt-3 mb-0">
-                                        <h4 className="text-danger me-1">{res.duration}</h4>from <h4 className="text-danger ms-1"> ${Discount(res.Total_cost, res.discount)}</h4>
-                                    </div>
-                                    <small className="d-flex w-100 text-center justify-content-center mt-0 mb-2">With Discount</small>
-                                    <div className="d-flex justify-content-center">
-                                        <label>Guided (<span className="text-success">{res.Tour_operator}</span>)</label>
-                                    </div>
-                                    <div className="viw-button"><a type="button" href="https://www.facebook.com/" className="form-control bg-primary text-light text-center mt-3">View
-                                        Details</a></div>
                                 </div>
                             </div>
-                        </div>   
                         ))}
                     </div>
                     <div className="d-flex trip-hr mt-4">
