@@ -22,13 +22,14 @@ body.dark {
 }
 
 body {
-    background: var(--bg);
-    color: var(--text);
+    background: var(--bg) !important;
+    color: var(--text) !important;
     transition: 0.5s linear;
 }
 
 .navbar {
     z-index: 999999;
+    padding: 2rem !important;
 }
 
 .tp-widget-wrapper {
@@ -943,6 +944,16 @@ a:hover {
 .detailpage .highlights ul li {
     display: flex;
     padding: 5px;
+    color: var(--dark) !important;
+}
+.detailpage .highlights ul li::before {
+    display: flex;
+    margin-right: 1rem;
+    color: var(--dark) !important;
+    font-family: "Font Awesome 5 Brands"; 
+	font-weight: 700;
+	content: "\2713";
+    font-size: 2em;
 }
 
 .detailpage .highlights ul li div {
@@ -957,8 +968,8 @@ a:hover {
 
 .detailpage .Itinerary .accordion {
     border-top: 0.1em solid darkblue;
-    color: var(--bg) !important;
-    background: var(--text) !important;
+    color: var(--light) !important;
+    background: var(--dark) !important;
     border-radius: 9px;
     -webkit-border-radius: 9px;
     -moz-border-radius: 9px;
@@ -1030,8 +1041,8 @@ a:hover {
 }
 
 .detailpage .Itinerary {
-    background: var(--text);
-    color: var(--bg);
+    background: var(--light);
+    color: var(--dark);
     border-radius: 9px;
     -webkit-border-radius: 9px;
     -moz-border-radius: 9px;
@@ -1041,8 +1052,8 @@ a:hover {
 }
 
 .detailpage .highlights {
-    background: var(--text);
-    color: var(--bg);
+    background: var(--light);
+    color: var(--dark) !important;
     border-radius: 9px;
     -webkit-border-radius: 9px;
     -moz-border-radius: 9px;
@@ -1063,8 +1074,8 @@ a:hover {
 }
 
 .detailpage .cost-detail {
-    background: var(--text);
-    color: var(--bg);
+    background: var(--light);
+    color: var(--dark) !important;
     padding: 8px;
     border-radius: 9px;
     -webkit-border-radius: 9px;
@@ -1072,6 +1083,15 @@ a:hover {
     -ms-border-radius: 9px;
     -o-border-radius: 9px;
     margin-bottom: 1rem;
+}
+
+.detailpage .cost-detail li::before{
+    
+    margin-right: 1rem;
+    font-family: "Font Awesome 5 Brands"; 
+	font-weight: 700;
+	content: "\2713";
+    font-size: 2em;
 }
 
 .detailpage .datesandprice {
@@ -1602,4 +1622,21 @@ small {
 .image-thumbnail {
     width: 200px;
     height: 250px;
+}
+
+a {
+    text-decoration: none !important;
+    color: rgb(0, 68, 255) !important;
+}
+.navbar a{
+    color: var(--text) !important;
+}
+.detailnav li::after{
+    content: "/";
+}
+.detailnav{
+    justify-content: start !important;
+}
+.detailnav li:last-child::after{
+    content: none;
 }

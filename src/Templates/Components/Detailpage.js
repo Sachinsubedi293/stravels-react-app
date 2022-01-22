@@ -7,12 +7,16 @@ const Detailpage = () => {
     const [DetailApi, setDetailApi] = useState([]);
     const [Path, setPath] = useState([]);
     const [Rating, setRating] = useState([]);
+    const [Highlights, setHighlights] = useState([]);
+    const [Cost_details, setCost_details] = useState([]);
     var slug = useParams('detail').slug;
     useEffect(() => {
         axios.get(Api + `/api/travel-place-information/?slug=${slug}`).then(res => {
             setDetailApi(res.data[0]);
             setPath(res.data[0].Travels_place_path);
             setRating(res.data[0].user_rating)
+            setHighlights(res.data[0].highlights)
+            setCost_details(res.data[0].cost_details)
             console.log(res.data[0]);
             console.log(res.data[0].Travels_place_path);
         })
@@ -20,13 +24,14 @@ const Detailpage = () => {
     return (
         <>
             <div className="detailpage">
-                <nav>
-                    <ul className="container d-flex flex-wrap text-dark">
+                <div className="nav-scroller container">
+                    <nav className="nav d-flex p-2 pt-3 detailnav">
                         <li>Home</li>
                         <li>Destinations</li>
                         <li>{DetailApi.travel_place_title}</li>
-                    </ul>
-                </nav>
+                    </nav>
+                </div>
+
                 <section className="details-start  container">
                     <div className="row row-cols-md-2">
                         <div className="col-md-9">
@@ -35,9 +40,7 @@ const Detailpage = () => {
                                 <hr />
                                 <hr />
                             </div>
-                            <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ipsa consequatur, voluptas accusamus aliquam,
-                                omnis optio consectetur ex voluptatibus quaerat, possimus natus nobis enim quis. Soluta nihil nobis maxime
-                                quisquam illum?</p>
+                            <p>{DetailApi.summery}</p>
                             <div id="detail-carousel" className="carousel slide" data-bs-ride="carousel">
                                 <div className="carousel-inner">
                                     <div className="carousel-item active">
@@ -80,11 +83,11 @@ const Detailpage = () => {
                             <div className="review p-2 d-flex align-items-center ">
 
                                 <a href="https://www.facebook.com/" className="btn btn-warning text-light me-2">{RatingAdd(Rating) ? RatingAdd(Rating) : 5}</a>
-                                {RatingAdd(Rating) <= 1 ? <> <i className="fa fa-star text-warning" aria-hidden="true"></i> <i class="fa fa-star-o text-warning me-2" aria-hidden="true"></i> <i class="fa fa-star-o text-warning me-2" aria-hidden="true"></i> <i class="fa fa-star-o text-warning me-2" aria-hidden="true"></i> <i class="fa fa-star-o text-warning me-2" aria-hidden="true"></i> </> : RatingAdd(Rating) <= 2 ? <><i className="fa fa-star text-warning" aria-hidden="true"></i><i className="fa fa-star text-warning" aria-hidden="true"></i> <i class="fa fa-star-o text-warning me-2" aria-hidden="true"></i> <i class="fa fa-star-o text-warning me-2" aria-hidden="true"></i> <i class="fa fa-star-o text-warning me-2" aria-hidden="true"></i></> : RatingAdd(Rating) <= 3 ? <><i className="fa fa-star text-warning" aria-hidden="true"></i><i className="fa fa-star text-warning" aria-hidden="true"></i><i className="fa fa-star text-warning" aria-hidden="true"></i> <i class="fa fa-star-o text-warning me-2" aria-hidden="true"></i> <i class="fa fa-star-o text-warning me-2" aria-hidden="true"></i></> : RatingAdd(Rating) <= 4 ? <><i className="fa fa-star text-warning" aria-hidden="true"></i><i className="fa fa-star text-warning" aria-hidden="true"></i><i className="fa fa-star text-warning" aria-hidden="true"></i><i className="fa fa-star text-warning" aria-hidden="true"></i> <i class="fa fa-star-o text-warning me-2" aria-hidden="true"></i></> : <> <i className="fa fa-star text-warning" aria-hidden="true"></i><i className="fa fa-star text-warning" aria-hidden="true"></i><i className="fa fa-star text-warning" aria-hidden="true"></i><i className="fa fa-star text-warning" aria-hidden="true"></i><i className="fa fa-star text-warning" aria-hidden="true"></i></>}
+                                {RatingAdd(Rating) <= 1 ? <> <i className="fa fa-star text-warning" aria-hidden="true"></i> <i className="fa fa-star-o text-warning me-2" aria-hidden="true"></i> <i className="fa fa-star-o text-warning me-2" aria-hidden="true"></i> <i className="fa fa-star-o text-warning me-2" aria-hidden="true"></i> <i className="fa fa-star-o text-warning me-2" aria-hidden="true"></i> </> : RatingAdd(Rating) <= 2 ? <><i className="fa fa-star text-warning" aria-hidden="true"></i><i className="fa fa-star text-warning" aria-hidden="true"></i> <i className="fa fa-star-o text-warning me-2" aria-hidden="true"></i> <i className="fa fa-star-o text-warning me-2" aria-hidden="true"></i> <i className="fa fa-star-o text-warning me-2" aria-hidden="true"></i></> : RatingAdd(Rating) <= 3 ? <><i className="fa fa-star text-warning" aria-hidden="true"></i><i className="fa fa-star text-warning" aria-hidden="true"></i><i className="fa fa-star text-warning" aria-hidden="true"></i> <i className="fa fa-star-o text-warning me-2" aria-hidden="true"></i> <i className="fa fa-star-o text-warning me-2" aria-hidden="true"></i></> : RatingAdd(Rating) <= 4 ? <><i className="fa fa-star text-warning" aria-hidden="true"></i><i className="fa fa-star text-warning" aria-hidden="true"></i><i className="fa fa-star text-warning" aria-hidden="true"></i><i className="fa fa-star text-warning" aria-hidden="true"></i> <i className="fa fa-star-o text-warning me-2" aria-hidden="true"></i></> : <> <i className="fa fa-star text-warning" aria-hidden="true"></i><i className="fa fa-star text-warning" aria-hidden="true"></i><i className="fa fa-star text-warning" aria-hidden="true"></i><i className="fa fa-star text-warning" aria-hidden="true"></i><i className="fa fa-star text-warning" aria-hidden="true"></i></>}
                                 <h6 className='ms-2'>{Rating.length} Cient Reviews</h6>
                             </div>
                             <div className="from">
-                                <label>From </label><strong> Kathmandu </strong>to <strong> Pokhara</strong>
+                                <label>From </label><strong> {DetailApi.From} </strong>to <strong>{DetailApi.To}</strong>
                             </div>
                             <div className="row row-cols-md-2 mt-4">
                                 <div className="col d-flex flex-column justify-content-evenly">
@@ -96,7 +99,7 @@ const Detailpage = () => {
                                     <strong>Private Available:</strong>
                                     <a href="https://www.facebook.com/"><p>Request As Private</p></a>
                                     <strong>Difficulty Level:</strong>
-                                    <p>Easy</p>
+                                    <p>{DetailApi.Difficulty_level}</p>
                                 </div>
                                 <div className="col d-flex flex-column ">
                                     <strong>Max groupe size</strong>
@@ -104,11 +107,11 @@ const Detailpage = () => {
                                     <strong>Operated in</strong>
                                     <p>{DetailApi.operate_language}</p>
                                     <strong>Max Elevation:</strong>
-                                    <p>4600m</p>
+                                    <p>{DetailApi.Max_Evaluation}</p>
                                 </div>
                             </div>
                             <div className="book shadow p-4 mt-5 ">
-                                <small>From</small>
+                                <small>From </small>
                                 <del className="text-danger">${DetailApi.Total_cost}</del><span className="badge bg-danger ms-2 rounded-pill">{DetailApi.discount}%</span>
                                 <div className="price d-flex align-items-center mt-0 ">
                                     <h4>US</h4>
@@ -150,31 +153,28 @@ const Detailpage = () => {
                             </div>
                             <div className="map position-relative" dangerouslySetInnerHTML={{ __html: DetailApi.map }}>
                             </div>
-                            <div className="overview mt-4 p-3 ">
+                            <div className="overview mt-4 p-3 pb-0 bg-light text-dark">
                                 <div className="title d-flex">
                                     <div className="icon me-2"><i className="fa fa-newspaper-o  fa-2x" aria-hidden="true"></i></div>
-                                    <h1>Overview</h1>
+                                    <h1 className=''>Overview</h1>
                                 </div>
-                                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ea molestias numquam fugit ab quas quia at eius.
-                                    Perspiciatis, harum. Corporis error id enim omnis assumenda ipsam magnam illum commodi maxime.</p>
-                                <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Eligendi expedita non sunt laborum quasi ex
-                                    odit neque veniam et voluptate itaque eaque, consequatur dignissimos ad cupiditate distinctio doloremque
-                                    totam eius.</p>
-                            </div>
-                            <div className="highlights pt-4  container">
+                                <p dangerouslySetInnerHTML={{ __html: DetailApi.Overview }}></p>
+                                <div className="highlights pb-3   container">
                                 <div className="title container">
                                     <h2>Highlights</h2>
                                 </div>
-                                <div className="d-flex">
-                                    <ul className="check-list">
+                                <div className="d-flex check-list pb-2" dangerouslySetInnerHTML={{__html:Highlights.map(res=>res.Highlights)}}>
+                                    {/* <ul className="check-list">
                                         <li><i className="fa fa-check-circle-o fa-2x me-2 " aria-hidden="true"></i> Head</li>
                                         <li><i className="fa fa-check-circle-o fa-2x me-2 " aria-hidden="true"></i> Shoulders</li>
                                         <li><i className="fa fa-check-circle-o fa-2x me-2 " aria-hidden="true"></i> Knees</li>
                                         <li><i className="fa fa-check-circle-o fa-2x me-2 " aria-hidden="true"></i> Toes</li>
-                                    </ul>
+                                    </ul> */}
                                 </div>
 
                             </div>
+                            </div>
+                           
                             <div className="Itinerary mt-2">
 
                                 <div className="accordion-body">
@@ -211,24 +211,10 @@ const Detailpage = () => {
                                     <div className="icon me-2"><i className="fa fa-pie-chart fa-2x " aria-hidden="true"></i></div>
                                     <h1 className="text-uppercase">Cost Detail</h1>
                                 </div>
-                                <div className="includes container">
-                                    <h5 className="text-uppercase">Cost Includes</h5>
-                                    <ul className="check-list" type="none">
-                                        <li><i className="fa fa-check-circle-o fa-2x me-2 " aria-hidden="true"></i> Head</li>
-                                        <li><i className="fa fa-check-circle-o fa-2x me-2 " aria-hidden="true"></i> Shoulders</li>
-                                        <li> <i className="fa fa-check-circle-o fa-2x me-2 " aria-hidden="true"></i> Knees</li>
-                                        <li><i className="fa fa-check-circle-o fa-2x me-2 " aria-hidden="true"></i> Toes</li>
-                                    </ul>
+                                <div className="includes  rounded exclude container" dangerouslySetInnerHTML={{__html:Cost_details.map(res=>res.Cost_Details)}}>
+                                   
                                 </div>
-                                <div className="excludes container">
-                                    <h5 className="text-uppercase">Cost Excludes</h5>
-                                    <ul className="check-list" type="none">
-                                        <li><i className="fa fa-times-circle-o fa-2x me-2 " aria-hidden="true"></i> Head</li>
-                                        <li><i className="fa fa-times-circle-o fa-2x me-2 " aria-hidden="true"></i> Shoulders</li>
-                                        <li><i className="fa fa-times-circle-o fa-2x me-2 " aria-hidden="true"></i> Knees</li>
-                                        <li><i className="fa fa-times-circle-o fa-2x me-2 " aria-hidden="true"></i> Toes</li>
-                                    </ul>
-                                </div>
+                               
                             </div>
                             <div className="datesandprice">
                                 <div className="title d-flex">
@@ -267,83 +253,85 @@ const Detailpage = () => {
                             </div>
 
                         </div>
-                        <div className="col-md-3 mt-5 ">
-                            <div className="shadow-lg p-3 mt-4 information">
-                                <h3>Trip Information</h3>
-                                <ul type="none" >
-                                    <li><a href="https://www.nepalmotherhousetreks.com/info/trip-preparation" target="_blank"
-                                        rel="noreferrer">Trip Preparation</a></li>
-                                    <li><a href="https://www.nepalmotherhousetreks.com/info/trip-grading" target="_blank" rel="noreferrer">Trip
-                                        Grading</a></li>
-                                    <li><a href="https://www.nepalmotherhousetreks.com/info/trekking-permit-fees-in-nepal" target="_blank"
-                                        rel="noreferrer">Trekking Permit Fees in Nepal</a></li>
-                                    <li><a href="https://www.nepalmotherhousetreks.com/info/trekking-categories" target="_blank"
-                                        rel="noreferrer">Trekking Categories</a></li>
-                                    <li><a href="https://www.nepalmotherhousetreks.com/info/tims-cards" target="_blank" rel="noreferrer">TIMS
-                                        Cards</a></li>
-                                    <li><a href="https://www.nepalmotherhousetreks.com/info/nepal-trekking-season" target="_blank"
-                                        rel="noreferrer">Nepal Trekking Season</a></li>
-                                    <li><a href="https://www.nepalmotherhousetreks.com/info/money-bank-atm-service" target="_blank"
-                                        rel="noreferrer">Money Bank &amp; ATM service</a></li>
-                                    <li><a href="https://www.nepalmotherhousetreks.com/info/guide-and-porter-hiring-service" target="_blank"
-                                        rel="noreferrer">Guide &amp; Porter Hiring Service in Nepal</a></li>
-                                    <li><a href="https://www.nepalmotherhousetreks.com/info/foods-on-the-trek" target="_blank"
-                                        rel="noreferrer">Foods on the Trek</a></li>
-                                    <li><a href="https://www.nepalmotherhousetreks.com/info/first-aid-check-list" target="_blank"
-                                        rel="noreferrer">First Aid Check List</a></li>
-                                    <li><a href="https://www.nepalmotherhousetreks.com/info/drinking-water" target="_blank"
-                                        rel="noreferrer">Drinking Water</a></li>
-                                    <li><a href="https://www.nepalmotherhousetreks.com/info/altitude-sickness-information" target="_blank"
-                                        rel="noreferrer">Altitude Sickness Information</a></li>
-                                    <li><a href="https://www.nepalmotherhousetreks.com/info/accommodation" target="_blank"
-                                        rel="noreferrer">Accommodation</a></li>
-                                    <li><a href="https://www.nepalmotherhousetreks.com/info/a-typical-trek-day" target="_blank"
-                                        rel="noreferrer">A Typical Trek Day</a></li>
-                                    <li><a href="https://www.nepalmotherhousetreks.com/equipment/packing-list-for-nepal-trekking"
-                                        target="_blank" rel="noreferrer">Packing List for Nepal Trek</a></li>
-                                </ul>
-                            </div>
+                        <div className="col-md-3 mt-5   ">
+                            <div className='sticky-top'>
+                                <div className="shadow-lg p-3 mt-4 information">
+                                    <h3>Trip Information</h3>
+                                    <ul type="none" >
+                                        <li><a href="https://www.nepalmotherhousetreks.com/info/trip-preparation" target="_blank"
+                                            rel="noreferrer">Trip Preparation</a></li>
+                                        <li><a href="https://www.nepalmotherhousetreks.com/info/trip-grading" target="_blank" rel="noreferrer">Trip
+                                            Grading</a></li>
+                                        <li><a href="https://www.nepalmotherhousetreks.com/info/trekking-permit-fees-in-nepal" target="_blank"
+                                            rel="noreferrer">Trekking Permit Fees in Nepal</a></li>
+                                        <li><a href="https://www.nepalmotherhousetreks.com/info/trekking-categories" target="_blank"
+                                            rel="noreferrer">Trekking Categories</a></li>
+                                        <li><a href="https://www.nepalmotherhousetreks.com/info/tims-cards" target="_blank" rel="noreferrer">TIMS
+                                            Cards</a></li>
+                                        <li><a href="https://www.nepalmotherhousetreks.com/info/nepal-trekking-season" target="_blank"
+                                            rel="noreferrer">Nepal Trekking Season</a></li>
+                                        <li><a href="https://www.nepalmotherhousetreks.com/info/money-bank-atm-service" target="_blank"
+                                            rel="noreferrer">Money Bank &amp; ATM service</a></li>
+                                        <li><a href="https://www.nepalmotherhousetreks.com/info/guide-and-porter-hiring-service" target="_blank"
+                                            rel="noreferrer">Guide &amp; Porter Hiring Service in Nepal</a></li>
+                                        <li><a href="https://www.nepalmotherhousetreks.com/info/foods-on-the-trek" target="_blank"
+                                            rel="noreferrer">Foods on the Trek</a></li>
+                                        <li><a href="https://www.nepalmotherhousetreks.com/info/first-aid-check-list" target="_blank"
+                                            rel="noreferrer">First Aid Check List</a></li>
+                                        <li><a href="https://www.nepalmotherhousetreks.com/info/drinking-water" target="_blank"
+                                            rel="noreferrer">Drinking Water</a></li>
+                                        <li><a href="https://www.nepalmotherhousetreks.com/info/altitude-sickness-information" target="_blank"
+                                            rel="noreferrer">Altitude Sickness Information</a></li>
+                                        <li><a href="https://www.nepalmotherhousetreks.com/info/accommodation" target="_blank"
+                                            rel="noreferrer">Accommodation</a></li>
+                                        <li><a href="https://www.nepalmotherhousetreks.com/info/a-typical-trek-day" target="_blank"
+                                            rel="noreferrer">A Typical Trek Day</a></li>
+                                        <li><a href="https://www.nepalmotherhousetreks.com/equipment/packing-list-for-nepal-trekking"
+                                            target="_blank" rel="noreferrer">Packing List for Nepal Trek</a></li>
+                                    </ul>
+                                </div>
 
-                            <div className="information mt-5 text-center mb-0">
-                                <h3 className="pt-3">You May also Like</h3>
-                                <ul type="none" className="text-start pb-3 pe-1">
-                                    <li><a href="https://www.nepalmotherhousetreks.com/trek-to-upper-mustang">Trek to Upper Mustang</a></li>
-                                    <li><a href="https://www.nepalmotherhousetreks.com/annapurna-sunrise-trekking">Annapurna Sunrise
-                                        Trekking</a></li>
-                                    <li><a href="https://www.nepalmotherhousetreks.com/nar-phu-valley-trek">Nar Phu Valley Trek</a></li>
-                                    <li><a href="https://www.nepalmotherhousetreks.com/upper-mustang-trek-with-luri-gumba">Upper Mustang Trek
-                                        with Luri Gumba</a></li>
-                                    <li><a href="https://www.nepalmotherhousetreks.com/nepal-glimpse-trip-with-yoga">Nepal Glimpse Trip with
-                                        Yoga</a></li>
-                                    <li><a href="https://www.nepalmotherhousetreks.com/annapurna-short-trekking">Annapurna Short Trekking</a>
-                                    </li>
-                                    <li><a href="https://www.nepalmotherhousetreks.com/jomsom-to-muktinath-trek">Jomsom to Muktinath Trek</a>
-                                    </li>
-                                    <li><a href="https://www.nepalmotherhousetreks.com/upper-mustang-tiji-festival-trek">Upper Mustang Tiji
-                                        Festival Trek</a></li>
-                                    <li><a href="https://www.nepalmotherhousetreks.com/annapurna-royal-trek">Annapurna Royal Trek</a></li>
-                                    <li><a href="https://www.nepalmotherhousetreks.com/annapurna-base-camp-trekking">Annapurna Base Camp
-                                        Trekking</a></li>
-                                    <li><a href="https://www.nepalmotherhousetreks.com/annapurna-circuit-trek">Annapurna Circuit Trek</a></li>
-                                    <li><a href="https://www.nepalmotherhousetreks.com/ghale-gaun-trekking">Ghale Gaun Trekking</a></li>
-                                    <li><a href="https://www.nepalmotherhousetreks.com/annapurna-sanctuary-trekking">Annapurna Sanctuary
-                                        Trekking</a></li>
-                                    <li><a href="https://www.nepalmotherhousetreks.com/khopra-trek">Khopra Trek</a></li>
-                                    <li><a href="https://www.nepalmotherhousetreks.com/mardi-himal-trek">Mardi Himal Trek</a></li>
-                                    <li><a href="https://www.nepalmotherhousetreks.com/panchase-trekking">Panchase Trekking</a></li>
-                                    <li><a href="https://www.nepalmotherhousetreks.com/nepal-rhododendron-trek">Nepal Rhododendron Trek</a>
-                                    </li>
-                                    <li><a href="https://www.nepalmotherhousetreks.com/tilicho-lake-trek">Tilicho Lake Trek</a></li>
-                                    <li><a href="https://www.nepalmotherhousetreks.com/poon-hill-trek-2-days">Poon Hill Trek 2 Days</a></li>
-                                    <li><a href="https://www.nepalmotherhousetreks.com/ghorepani-poon-hill-trek">Ghorepani Poon Hill Trek</a>
-                                    </li>
-                                    <li><a href="https://www.nepalmotherhousetreks.com/short-annapurna-circuit-trek">Short Annapurna Circuit
-                                        Trek</a></li>
-                                    <li><a href="https://www.nepalmotherhousetreks.com/annapurna-base-camp-trek-via-poon-hill">Annapurna Base
-                                        Camp Trek via Poon Hill</a></li>
-                                    <li><a href="https://www.nepalmotherhousetreks.com/nar-phu-valley-short-trek">Nar Phu Valley Short
-                                        Trek</a></li>
-                                </ul>
+                                <div className="information mt-5 text-center mb-0">
+                                    <h3 className="pt-3">You May also Like</h3>
+                                    <ul type="none" className="text-start pb-3 pe-1">
+                                        <li><a href="https://www.nepalmotherhousetreks.com/trek-to-upper-mustang">Trek to Upper Mustang</a></li>
+                                        <li><a href="https://www.nepalmotherhousetreks.com/annapurna-sunrise-trekking">Annapurna Sunrise
+                                            Trekking</a></li>
+                                        <li><a href="https://www.nepalmotherhousetreks.com/nar-phu-valley-trek">Nar Phu Valley Trek</a></li>
+                                        <li><a href="https://www.nepalmotherhousetreks.com/upper-mustang-trek-with-luri-gumba">Upper Mustang Trek
+                                            with Luri Gumba</a></li>
+                                        <li><a href="https://www.nepalmotherhousetreks.com/nepal-glimpse-trip-with-yoga">Nepal Glimpse Trip with
+                                            Yoga</a></li>
+                                        <li><a href="https://www.nepalmotherhousetreks.com/annapurna-short-trekking">Annapurna Short Trekking</a>
+                                        </li>
+                                        <li><a href="https://www.nepalmotherhousetreks.com/jomsom-to-muktinath-trek">Jomsom to Muktinath Trek</a>
+                                        </li>
+                                        <li><a href="https://www.nepalmotherhousetreks.com/upper-mustang-tiji-festival-trek">Upper Mustang Tiji
+                                            Festival Trek</a></li>
+                                        <li><a href="https://www.nepalmotherhousetreks.com/annapurna-royal-trek">Annapurna Royal Trek</a></li>
+                                        <li><a href="https://www.nepalmotherhousetreks.com/annapurna-base-camp-trekking">Annapurna Base Camp
+                                            Trekking</a></li>
+                                        <li><a href="https://www.nepalmotherhousetreks.com/annapurna-circuit-trek">Annapurna Circuit Trek</a></li>
+                                        <li><a href="https://www.nepalmotherhousetreks.com/ghale-gaun-trekking">Ghale Gaun Trekking</a></li>
+                                        <li><a href="https://www.nepalmotherhousetreks.com/annapurna-sanctuary-trekking">Annapurna Sanctuary
+                                            Trekking</a></li>
+                                        <li><a href="https://www.nepalmotherhousetreks.com/khopra-trek">Khopra Trek</a></li>
+                                        <li><a href="https://www.nepalmotherhousetreks.com/mardi-himal-trek">Mardi Himal Trek</a></li>
+                                        <li><a href="https://www.nepalmotherhousetreks.com/panchase-trekking">Panchase Trekking</a></li>
+                                        <li><a href="https://www.nepalmotherhousetreks.com/nepal-rhododendron-trek">Nepal Rhododendron Trek</a>
+                                        </li>
+                                        <li><a href="https://www.nepalmotherhousetreks.com/tilicho-lake-trek">Tilicho Lake Trek</a></li>
+                                        <li><a href="https://www.nepalmotherhousetreks.com/poon-hill-trek-2-days">Poon Hill Trek 2 Days</a></li>
+                                        <li><a href="https://www.nepalmotherhousetreks.com/ghorepani-poon-hill-trek">Ghorepani Poon Hill Trek</a>
+                                        </li>
+                                        <li><a href="https://www.nepalmotherhousetreks.com/short-annapurna-circuit-trek">Short Annapurna Circuit
+                                            Trek</a></li>
+                                        <li><a href="https://www.nepalmotherhousetreks.com/annapurna-base-camp-trek-via-poon-hill">Annapurna Base
+                                            Camp Trek via Poon Hill</a></li>
+                                        <li><a href="https://www.nepalmotherhousetreks.com/nar-phu-valley-short-trek">Nar Phu Valley Short
+                                            Trek</a></li>
+                                    </ul>
+                                </div>
                             </div>
                         </div>
 
